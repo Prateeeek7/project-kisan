@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Kisan - AI Farmer Assistant</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-storage-compat.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-seedling"></i>
+                    <h1>Project Kisan</h1>
+                </div>
+                <div class="language-selector">
+                    <select id="languageSelect">
+                        <option value="en">English</option>
+                        <option value="kn">ಕನ್ನಡ</option>
+                        <option value="hi">हिंदी</option>
+                    </select>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Voice Assistant Section -->
+            <section class="voice-section">
+                <div class="voice-card">
+                    <div class="voice-header">
+                        <i class="fas fa-microphone"></i>
+                        <h2 id="voiceTitle">Voice Assistant</h2>
+                    </div>
+                    <div class="voice-controls">
+                        <button id="voiceButton" class="voice-btn">
+                            <i class="fas fa-microphone"></i>
+                            <span id="voiceButtonText">Start Voice</span>
+                        </button>
+                        <div class="voice-status" id="voiceStatus">Click to start voice interaction</div>
+                    </div>
+                    <div class="voice-output" id="voiceOutput"></div>
+                </div>
+            </section>
+
+            <!-- Feature Cards -->
+            <section class="features-section">
+                <div class="feature-grid">
+                    <!-- Crop Disease Diagnosis -->
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-leaf"></i>
+                        </div>
+                        <h3>Crop Disease Diagnosis</h3>
+                        <p>Upload a photo of your crop to get instant disease diagnosis and treatment advice</p>
+                        <div class="upload-area" id="uploadArea">
+                            <input type="file" id="imageInput" accept="image/*" capture="environment">
+                            <div class="upload-content">
+                                <i class="fas fa-camera"></i>
+                                <span>Click to upload crop image</span>
+                            </div>
+                        </div>
+                        <div class="image-preview" id="imagePreview"></div>
+                        <button class="analyze-btn" id="analyzeBtn" disabled>Analyze Crop</button>
+                        <div class="analysis-result" id="analysisResult"></div>
+                    </div>
+
+                    <!-- Market Analysis -->
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3>Market Analysis</h3>
+                        <p>Get real-time market prices and selling recommendations</p>
+                        <div class="market-form">
+                            <input type="text" id="cropName" placeholder="Enter crop name (e.g., Tomato)">
+                            <input type="text" id="location" placeholder="Enter location (e.g., Bangalore)">
+                            <button class="market-btn" id="marketBtn">Get Market Data</button>
+                        </div>
+                        <div class="market-result" id="marketResult"></div>
+                    </div>
+
+                    <!-- Government Schemes -->
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-landmark"></i>
+                        </div>
+                        <h3>Government Schemes</h3>
+                        <p>Find relevant government subsidies and agricultural schemes</p>
+                        <div class="scheme-form">
+                            <input type="text" id="schemeQuery" placeholder="Ask about schemes (e.g., drip irrigation subsidy)">
+                            <button class="scheme-btn" id="schemeBtn">Search Schemes</button>
+                        </div>
+                        <div class="scheme-result" id="schemeResult"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quick Actions -->
+            <section class="quick-actions">
+                <h3>Quick Actions</h3>
+                <div class="action-buttons">
+                    <button class="action-btn" data-action="weather">
+                        <i class="fas fa-cloud-sun"></i>
+                        Weather Forecast
+                    </button>
+                    <button class="action-btn" data-action="pest">
+                        <i class="fas fa-bug"></i>
+                        Pest Control
+                    </button>
+                    <button class="action-btn" data-action="fertilizer">
+                        <i class="fas fa-seedling"></i>
+                        Fertilizer Guide
+                    </button>
+                    <button class="action-btn" data-action="irrigation">
+                        <i class="fas fa-tint"></i>
+                        Irrigation Tips
+                    </button>
+                </div>
+            </section>
+
+            <!-- Recent Activity -->
+            <section class="recent-activity">
+                <h3>Recent Activity</h3>
+                <div class="activity-list" id="activityList">
+                    <!-- Activity items will be populated here -->
+                </div>
+            </section>
+        </main>
+
+        <!-- Loading Overlay -->
+        <div class="loading-overlay" id="loadingOverlay">
+            <div class="loading-content">
+                <div class="spinner"></div>
+                <p id="loadingText">Processing your request...</p>
+            </div>
+        </div>
+
+        <!-- Audio Player for Voice Responses -->
+        <audio id="audioPlayer" style="display: none;"></audio>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
